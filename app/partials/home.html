@@ -1,0 +1,96 @@
+<div class="topbar">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div align="center">
+            <button class="btn" ng-click="log in"><img src="icon/login.gif"></img></button>
+            <button class="btn" ng-click="save"><img src="icon/save.gif"></img></button>
+            <button class="btn" ng-click="synchronize"><img src="icon/push.gif"></img></button>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="col-md-5">
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="row">
+                <button class="turn" align="left"> < </button>
+                <p align="center">{{avtivity.date}}</p>
+                <button class="turn" align="right"> > </button>    
+            </div>
+        </div>   
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <table>
+                        <tr><td>Start time: {{activity.start_time}}</td></tr>
+                        <tr><td>End time: {{activity.end_time}}</td></tr>
+                        <tr><td>Total length: {{activity.total_len}} min</td></tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <table class="progress">
+                        <tr ng-repeat="event in activity">
+                            <td background-color="event.type_color">&nbsp;</td>
+                        </tr>    
+                        <tr><td background-color="#a0c25f">&nbsp;</td></tr>
+                        <tr><td background-color="#a0c25f">&nbsp;</td></tr>
+                    </table>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <table class="eventList">
+                <tr ng-repeat="event in activity">
+                    <td>{{event.time}}</td>
+                    <td>{{event.topic}}</td>
+                </tr> 
+               
+                <tr>
+                    <td class="time">8:00</td>
+                    <td>&nbsp;</td>
+                    <td class="event">Introduction</td>
+                </tr>
+                <br>
+                <tr>
+                    <td class="time">8:10</td>
+                    <td>&nbsp;</td>
+                    <td class="event">Idea1</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-5">
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="row" align="center">+ Add activity</div>
+        </div>
+        <div class="panel-body">
+            <div >
+                <br><input type="text" class="input-control" placeholder="Name"><br>
+                <br><input class="input-control" placeholder="Length" align="center"><span> min</span><br>               
+                <br><input placeholder="Type">
+                    <span>
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="activity-type" >Presentation</a></li>
+                            <li><a class="activity-type" >Discussion</a></li>
+                            <li><a class="activity-type" >Group Work</a></li>
+                            <li><a class="dish-type" >Break</a></li>
+                        </ul>
+                    </span>
+                    <br>                  
+                <br><input class="description" placeholder="Description" align="center"><br>
+                                
+            </div>
+            <br>
+            <div align="center">
+                <button class="cancel-btn">cancel</button>
+                <button class="save-btn">save</button>
+            </div>               
+        </div>
+    </div>
+</div>
