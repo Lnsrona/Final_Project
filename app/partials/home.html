@@ -10,14 +10,14 @@
 </div>
 </div>
 
-<div class="col-md-5">
+<div class="col-md-6">
     <div class="panel">
         <div class="panel-heading">
-            <div class="row">
-                <button class="turn" align="left"> < </button>
-                <p align="center">{{avtivity.date}}</p>
-                <button class="turn" align="right"> > </button>    
-            </div>
+            <span class="glyphicon glyphicon-chevron-left prev_btn" aria-hidden="true"></span>
+            <span>&nbsp;</span>
+            <span align="center">{{avtivity.date}}</span>
+            <span>&nbsp;</span>
+            <span class="glyphicon glyphicon-chevron-right next_btn" aria-hidden="true"></span>
         </div>   
         <div class="panel-body">
             <div class="row">
@@ -31,66 +31,161 @@
                 <div class="col-md-4">
                     <table class="progress">
                         <tr ng-repeat="event in activity">
-                            <td background-color="event.type_color">&nbsp;</td>
-                        </tr>    
-                        <tr><td background-color="#a0c25f">&nbsp;</td></tr>
-                        <tr><td background-color="#a0c25f">&nbsp;</td></tr>
+                            <td>&nbsp;</td>
+                        </tr>                           
                     </table>
                 </div>
             </div>
             
             <hr>
             
+            <div id="eventOrder">
             <table class="eventList">
                 <tr ng-repeat="event in activity">
                     <td>{{event.time}}</td>
-                    <td>{{event.topic}}</td>
-                </tr> 
-               
-                <tr>
-                    <td class="time">8:00</td>
-                    <td>&nbsp;</td>
-                    <td class="event">Introduction</td>
-                </tr>
-                <br>
-                <tr>
-                    <td class="time">8:10</td>
-                    <td>&nbsp;</td>
-                    <td class="event">Idea1</td>
-                </tr>
+                    <td><div style="background:{{activity.type}}">{{event.topic}}</div></td>
+                </tr>                
             </table>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="col-md-5">
+<div class="col-md-6">
     <div class="panel">
         <div class="panel-heading">
-            <div class="row" align="center">+ Add activity</div>
+            <div class="row" align="center" ng-click="showInput_page()">+ Add activity</div>
         </div>
         <div class="panel-body">
-            <div >
-                <br><input type="text" class="input-control" placeholder="Name"><br>
-                <br><input class="input-control" placeholder="Length" align="center"><span> min</span><br>               
-                <br><input placeholder="Type">
-                    <span>
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+            <div id="input_page" ng-hide="input_page">
+                <br/><input type="text" class="form-control" placeholder="Name"><br/>
+                <br/>
+                <div class="input-group">
+                    <input class="form-control" placeholder="Length" align="center">
+                    <span class="input-group-addon"> min</span>
+                </div>            
+                <br/><br/>
+                <div class="input-group">
+                    <input placeholder="Type" class="form-control" type="text">
+                    <span class="input-group-btn">
+                        <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
                         <ul class="dropdown-menu">
                             <li><a class="activity-type" >Presentation</a></li>
                             <li><a class="activity-type" >Discussion</a></li>
                             <li><a class="activity-type" >Group Work</a></li>
                             <li><a class="dish-type" >Break</a></li>
-                        </ul>
+                        </ul>-->
+                        <button id="eventType" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a class="event-type" >Presentation</a></li>
+                                <li><a class="event-type" >Discussion</a></li>
+                                <li><a class="event-type" >Group Work</a></li>
+                                <li><a class="event-type" >Break</a></li>
+                            </ul>
                     </span>
-                    <br>                  
-                <br><input class="description" placeholder="Description" align="center"><br>
-                                
+                </div>
+                <br/>
+                <br/>               
+                <input placeholder="Description" class="form-control description"><br/>                               
             </div>
+            
             <br>
             <div align="center">
                 <button class="cancel-btn">cancel</button>
                 <button class="save-btn">save</button>
-            </div>               
+            </div>     
+            
+            <div id="event_list" ng-hide="event_list">
+                <table class="eventList">
+                    <tr ng-repeat="event in activity">
+                        <td>{{event.time}}</td>
+                        <td><div style="background:{{activity.type}}">{{event.topic}}</div></td>
+                    </tr>                
+                </table>
+            </div>
+                                 
         </div>
     </div>
 </div>
+
+<!--pop up box-->
+    
+    <!--<div class="col-md-4">
+        <div class="panel" id="loginBfSynch" align="center" ng-hide="loginBfSynch">
+            <div class="panel-heading">
+                <div class="row" align="center"><p>To synchronize the latest changes, please input your e-mail address and password.</p></div>
+            </div>            
+            <div class="panel-body">
+                <br><input type="text" class="input-control" placeholder="Email"><br>
+            <br><input type="password" class="input-control" placeholder="Password"><br>
+            </div>
+            <div class="panel-footer">
+                <button class="cancel-btn">cancel</button>
+                <button class="save-btn">save</button>
+            </div>
+        </div>
+    </div>-->
+    
+    <div class="col-md-4">
+        <div class="panel" id="loginBfSave" align="center" ng-hide="loginBfSave">
+            <div class="panel-heading">
+                <div class="row" align="center">Login before saving.</div>
+            </div>
+            <!--<div class="alarm">Delete?</div>-->
+            <div class="panel-body">
+                <div><img src="icon/log.gif"></img></div>
+                <div><p>Before saving your content, please log in your google account</p></div>
+            </div>
+            <div class="panel-footer">
+                <button class="alarm">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="panel" id="saveFailure" align="center" ng-hide="saveFailure">
+            <div class="panel-heading">
+                <div class="row" align="center">Opps!Saving fails.</div>
+            </div>
+            <!--<div class="alarm">Delete?</div>-->
+            <div class="panel-body">
+                <div><img src="icon/network connection.gif"></img></div>
+                <div><p>There is something wrong with the Internet connection. Please check it again.</p></div>
+            </div>
+            <div class="panel-footer">
+                <button class="alarm">OK</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="panel" id="delete" align="center" ng-hide="delete_warning">
+            <div class="panel-heading">
+                <div class="row" align="center">Sure to delete?</div>
+            </div>
+            <!--<div class="alarm">Delete?</div>-->
+            <div class="panel-body">
+                <div><img src="icon/delete.gif"></img></div>
+                <div><p>Dragging items out of the parking lot means deleting it. Are you sure to delete it?</p></div>
+            </div>
+            <div class="panel-footer">
+                <button class="alarm">Cancel</button>
+                <button class="alarm">Delete</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="panel" id="networkFailure" align="center" ng-hide="networkFailure">
+            <div class="panel-heading">
+                <div class="row" align="center">Poor network</div>
+            </div>
+            <!--<div class="alarm">Delete?</div>-->
+            <div class="panel-body">
+                <div><img src="icon/poor network.gif"></img></div>
+                <div><p>Poor network, but we are trying to fix it. Please wait for a moment.</p></div>
+            </div>
+        </div>
+    </div>
+
+   
