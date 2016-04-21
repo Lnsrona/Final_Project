@@ -12,6 +12,10 @@
 // 	var _typeid = typeid;
 // 	var _description = description;
 	
+    meetingPlannerApp.factory('Meeting',function ($resource,$cookieStore){
+        
+        
+    });
 // 	// sets the name of the activity
 // 	this.setName = function(name) {
 // 		_name = name;

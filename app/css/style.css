@@ -1,20 +1,21 @@
-.thumbnail .caption h4{
-    overflow: hidden;
-    white-space: nowrap;
-    text-align: center;
-    font-weight: bold;
+.topbar {
+    
+    background-color:#f6f8fb;
+    padding:0;
+    height:60px;
 }
 
-.thumbnail .caption p{
-    text-overflow: ellipsis;
+.btn_bar{
+    position:abosulute;
+    top:20px;
 }
 
-.thumbnail .caption-price h4{
-    overflow: hidden;
-    white-space: nowrap;
-    text-align: center;
-    font-weight: bold;
+.top_btn{
+    height:40px;
 }
+
+
+
 
 .prev_btn
 {
@@ -39,24 +40,6 @@ table
 .vertical-mid {
     vertical-align: middle;
 }
-
-
-
-
-
-.topbar .panel-heading{
-    background-color:#f6f8fb;
-}
-
-/*.topbar{
-    margin:2cm 0cm;
-    background-color:#f6f8fb;
-}*/
-
-/*.btn{
-    width:100%;
-    height:80%;
-}*/
 
 .progress{
     width:100%;
@@ -104,3 +87,4 @@ table
 .form-control description{
     height:200px;
 }
+
