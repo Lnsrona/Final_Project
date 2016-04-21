@@ -34,9 +34,9 @@
             <div class="row">
                 <div class="col-md-8">
                     <table>
-                        <tr><td>Start time: {{activity.start_time}}08:00</td></tr>
-                        <tr><td>End time: {{activity.end_time}}11:20</td></tr>
-                        <tr><td>Total length: {{activity.total_len}}200 min</td></tr>
+                        <tr><td>Start time: {{activity.start_time}}</td></tr>
+                        <tr><td>End time: {{activity.end_time}}</td></tr>
+                        <tr><td>Total length: {{activity.total_len}} min</td></tr>
                     </table>
                 </div>
                 <div class="col-md-4">
@@ -154,7 +154,7 @@
             <div class="panel-heading">
                 <div class="row" align="center">Login before saving.</div>
             </div>
-            <!--<div class="alarm">Delete?</div>-->
+            
             <div class="panel-body">
                 <div><img src="icon/log.gif"></img></div>
                 <div><p>Before saving your content, please log in your google account</p></div>
@@ -169,8 +169,7 @@
         <div class="panel" id="saveFailure" align="center" ng-show="saveFail">
             <div class="panel-heading">
                 <div class="row" align="center">Opps!Saving fails.</div>
-            </div>
-            <!--<div class="alarm">Delete?</div>-->
+            </div>            
             <div class="panel-body">
                 <div><img src="icon/network connection.gif"></img></div>
                 <div><p>There is something wrong with the Internet connection. Please check it again.</p></div>
@@ -186,7 +185,6 @@
             <div class="panel-heading">
                 <div class="row" align="center">Sure to delete?</div>
             </div>
-            <!--<div class="alarm">Delete?</div>-->
             <div class="panel-body">
                 <div><img src="icon/delete.gif"></img></div>
                 <div><p>Dragging items out of the parking lot means deleting it. Are you sure to delete it?</p></div>
@@ -203,7 +201,6 @@
             <div class="panel-heading">
                 <div class="row" align="center">Poor network</div>
             </div>
-            <!--<div class="alarm">Delete?</div>-->
             <div class="panel-body">
                 <div><img src="icon/poor network.gif"></img></div>
                 <div><p>Poor network, but we are trying to fix it. Please wait for a moment.</p></div>
