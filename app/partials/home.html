@@ -3,15 +3,15 @@
     <div class="panel-heading">-->
     <div class="btn_bar">
         <div align="center">
-            <a class="btn" ng-click="login=true"><img ng-hide="login" src="icon/login_btn.gif"></img><img ng-show="login" class="top_btn" src="icon/login.gif"/>
+            <a class="btn" ng-click="login=true;login()"><img ng-hide="login" src="icon/login_btn.gif"></img><img ng-show="login" class="top_btn" src="icon/login.gif"/>
             <!--<span>-->
                 <!--<div class="username">-->
                     <h5 ng-show="login">{{user.account}}</h5>
                 <!--</div>-->
             <!--</span>-->
             </a>
-            <a class="btn" ng-click="save=true"><img ng-hide="save" src="icon/save_btn.gif"/><img ng-show="save" src="icon/saved.gif"></img></a>
-            <a class="btn" ng-click="synchronize=true"><img ng-hide="synchronize" src="icon/synchronize_btn.gif"/><img ng-show="synchronize" src="icon/synchronized.gif"></img></a>
+            <a class="btn" ng-click="save=true; save()"><img ng-hide="save" src="icon/save_btn.gif"/><img ng-show="save" src="icon/saved.gif"></img></a>
+            <a class="btn" ng-click="synchronize=true; synchronize()"><img ng-hide="synchronize" src="icon/synchronize_btn.gif"/><img ng-show="synchronize" src="icon/synchronized.gif"></img></a>
         </div>
     </div>
     <!--</div>
@@ -19,7 +19,6 @@
 </div>
 
 <br/>
-
 
 <div class="col-md-6">
     <div class="col-md-8" align="center">
