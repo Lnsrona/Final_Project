@@ -110,12 +110,18 @@
                 <input type="text" placeholder="Description" class="form-control description"/><br/>                                       
             
                 <br>
-                <div class="row" align="center">
-                    <button ng-click="addActi=false" class="cancel-btn">cancel</button>                   
+                <!--<div class="row">
+                    <div class="cancel cancel1"><button ng-click="addActi=false" class="cancel-btn">cancel</button></div>               
                     &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp;
-                    <button ng-click="addActi=false" class="save-btn">save</button>
+                    <div class="save"><button ng-click="addActi=false" class="save-btn">save</button></div>
                    
-                </div>   
+                </div>   -->
+                <table>
+                    <tr>
+                        <td class="cancel"><button ng-click="addActi=false" class="cancel-btn">cancel</button></td>
+                        <td class="save"><button ng-click="addActi=false" class="save-btn">save</button></td>
+                    </tr>
+                </table>
             </div>  
             
             <div id="event_list" ng-hide="addActi">

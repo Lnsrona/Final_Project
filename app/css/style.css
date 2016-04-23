@@ -88,7 +88,15 @@ table
     width:fixed;
 }
 
+.cancel{
+    position:relative;
+    left:20%;
+}
 
+.save{
+    position:relative;
+    left:10%;
+}
 
 .save-btn{
     background-color:#9bcb68;
