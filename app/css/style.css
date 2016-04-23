@@ -15,6 +15,15 @@
 }
 
 
+.page1{
+    position:relative;
+    left:40%;
+}
+
+.page2{
+    position:relative;
+    left:20%;
+}
 
 
 .prev_btn
@@ -79,10 +88,13 @@ table
     width:fixed;
 }
 
+
+
 .save-btn{
     background-color:#9bcb68;
     width:fixed;
 }
+
 
 .form-control description{
     height:200px;
