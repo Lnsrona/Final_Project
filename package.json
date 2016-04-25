@@ -1,9 +1,9 @@
 {
   "version": "0.0.0",
   "private": true,
-  "name": "dinner-planner",
-  "description": "A starter project for Interaction Programming course Lab5",
-  "repository": "https://github.com/kth-csc-iprog/dinnerplanner-html",
+  "name": "meetingPlanner",
+  "description": "A starter project for Interaction Programming course final project",
+  "repository": "https://github.com/Lnsrona/Final_Project",
   "license": "MIT",
   "devDependencies": {
     "http-server": "^0.6.1",

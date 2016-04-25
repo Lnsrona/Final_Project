@@ -22,36 +22,37 @@
 
 <div class="col-md-6">
     <div class="col-md-8" align="center">
+        <div class="page1">
     <div class="panel">
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-chevron-left prev_btn" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-left prev_btn" aria-hidden="true" ng-click="changeDate(0)"></span>
             <span>&nbsp;</span>
-            <span align="center">{{avtivity.date}}</span>
+            <span align="center">{{dateDisplay()}}</span>
             <span>&nbsp;</span>
-            <span class="glyphicon glyphicon-chevron-right next_btn" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-chevron-right next_btn" aria-hidden="true" ng-click="changeDate(1)"></span>
         </div>   
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-8">
                     <table>
-                        <tr><td>Start time: {{activity.start_time}}</td></tr>
-                        <tr><td>End time: {{activity.end_time}}</td></tr>
-                        <tr><td>Total length: {{activity.total_len}} min</td></tr>
+                        <tr><td>Start time: <input type="text" maxlength="5" style="max-width:50px; text-align:center" ng-model="startTime" ng-blur="setStart()"></td></tr>
+                        <tr><td>End time: {{endTime()}}</td></tr>
+                        <tr><td>Total length: {{totalLength()}} min</td></tr>
                     </table>
                 </div>
                 <div class="col-md-4">
                     <table class="progress">                       
-                        <tr ng-repeat="event_p in activities_p">
+                        <tr ng-repeat="event_p in activities_P">
                             <td bgcolor="#9bcdc5">&nbsp;</td>                            
                         </tr> 
-                        <tr ng-repeat="event_B in activities_B">
-                            <td bgcolor="#e98665">&nbsp;</td>                            
+                        <tr ng-repeat="event_B in activities_D">
+                            <td bgcolor="#a0c25f">&nbsp;</td>                            
                         </tr> 
                         <tr ng-repeat="event_G in activities_G">
-                            <td bgcolor="#f6e66e">&nbsp;</td>                            
+                            <td bgcolor="#e98665">&nbsp;</td>                            
                         </tr> 
-                        <tr ng-repeat="event_D in activities_D">
-                            <td bgcolor="#a0c25f">&nbsp;</td>                            
+                        <tr ng-repeat="event_D in activities_B">
+                            <td bgcolor="#f6e66e">&nbsp;</td>                            
                         </tr>                        
                     </table>
                 </div>
@@ -60,10 +61,11 @@
             <hr>
             
             <div id="eventOrder">
-            <table class="eventList" ng-repeat="event in activity">
-                <tr >
-                    <td>{{event.time}}</td>
-                    <td bgcolor="{{event.color}}">{{event.topic}}</td>
+            <table class="eventList" ng-repeat="event in activities">
+                <tr ng-click="editActivity($index, 1)" draggable="true">
+                    <td>{{getActivityTime($index)}}</td>
+                    <td bgcolor="{{event.getColor(event.getTypeId())}}">{{event.getName()}}</td>
+                    <td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeActivity($index)"></td>
                 </tr> 
                 <tr >
                     <td >&nbsp;</td>                   
@@ -74,50 +76,56 @@
     </div>
 </div>
 </div>
+</div>
 
 <div class="col-md-6">
     <div class="col-md-8" align="center">
+        <div class="page2">
     <div class="panel">
         <div class="panel-heading">
-            <div ng-click="addActi=true" class="row" align="center">+ Add activity</div>
+            <div ng-click="addActi=true" class="row" align="center">{{modeTitle}}</div>
         </div>
         <div class="panel-body">
             <div id="input_page" ng-show="addActi">
-                <br/><input type="text" class="form-control" placeholder="Name"><br/>
+                <br/><input id="nameInput" type="text" class="form-control" placeholder="Name" maxlength="50" ng-model="name"><br/>
                 <br/>
                 <div class="input-group">
-                    <input class="form-control" placeholder="Length" align="center">
+                    <input id="lengthInput" class="form-control" placeholder="Length (1-999)" onkeyup="value=value.replace(/\D|^0/g,'')" onpaste="return false;" maxlength="3" align="center" ng-model="duration">
                     <span class="input-group-addon"> min</span>
-                </div>            
+                </div>
                 <br/><br/>
                 <div class="input-group">
-                    <input placeholder="Type" class="form-control" type="text">
-                    <span class="input-group-btn">                       
+                    <input class="form-control" type="text" ng-model="type" readonly="readonly"/>
+                    <span class="input-group-btn">
                         <button id="eventType" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span class="caret"></span></button>
                             <ul class="dropdown-menu">
-                                <li><a class="event-type" >Presentation</a></li>
-                                <li><a class="event-type" >Discussion</a></li>
-                                <li><a class="event-type" >Group Work</a></li>
-                                <li><a class="event-type" >Break</a></li>
+                                <li><a class="event-type" ng-click="setType('Type: Presentation')">Presentation</a></li>
+                                <li><a class="event-type" ng-click="setType('Type: Discussion')">Discussion</a></li>
+                                <li><a class="event-type" ng-click="setType('Type: Group Work')">Group Work</a></li>
+                                <li><a class="event-type" ng-click="setType('Type: Break')">Break</a></li>
                             </ul>
                     </span>
                 </div>
                 <br/>
                 <br/>               
-                <input type="text" placeholder="Description" class="form-control description"/><br/>                                       
-            
+                <input type="text" placeholder="Description (optional)" ng-model="description" maxlength="150" class="form-control description"/><br/>
+
                 <br>
-                <div align="center">
-                    <button ng-click="addActi=false" class="cancel-btn">cancel</button>
-                    <button ng-click="addActi=false" class="save-btn">save</button>
-                </div>   
+
+                <table>
+                    <tr>
+                        <td class="cancel"><button ng-click="btnCancel()" class="cancel-btn">Cancel</button></td>
+                        <td class="save"><button ng-click="btnSave()" class="save-btn">Save</button></td>
+                    </tr>
+                </table>
             </div>  
             
             <div id="event_list" ng-hide="addActi">
-                <table class="eventList" ng-repeat="event in activity">
-                    <tr >
-                        <td>{{event.time}}</td>
-                        <td bgcolor="{{event.color}}">{{event.topic}}</td>
+                <table class="eventList" ng-repeat="parkedActivity in parkedActivities">
+                    <tr ng-click="moveParkedToDay(parkedActivity,$index)" draggable="true">
+                        <td>{{parkedActivity.getLength()}} min</td>
+                        <td bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}">{{parkedActivity.getName()}}</td>
+                        <td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>
                     </tr> 
                     <tr >
                         <td >&nbsp;</td>                   
@@ -129,83 +137,5 @@
         
     </div>
     </div>
+    </div>
 </div>
-
-<!--pop up box-->
-    
-    <!--<div class="col-md-4">
-        <div class="panel" id="loginBfSynch" align="center" ng-hide="loginBfSynch">
-            <div class="panel-heading">
-                <div class="row" align="center"><p>To synchronize the latest changes, please input your e-mail address and password.</p></div>
-            </div>            
-            <div class="panel-body">
-                <br><input type="text" class="input-control" placeholder="Email"><br>
-            <br><input type="password" class="input-control" placeholder="Password"><br>
-            </div>
-            <div class="panel-footer">
-                <button class="cancel-btn">cancel</button>
-                <button class="save-btn">save</button>
-            </div>
-        </div>
-    </div>-->
-    
-    <div class="col-md-4">
-        <div class="panel" id="loginBfSave" align="center" ng-show="saveUnlogin">
-            <div class="panel-heading">
-                <div class="row" align="center">Login before saving.</div>
-            </div>
-            
-            <div class="panel-body">
-                <div><img src="icon/log.gif"></img></div>
-                <div><p>Before saving your content, please log in your google account</p></div>
-            </div>
-            <div class="panel-footer">
-                <button class="alarm">OK</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="panel" id="saveFailure" align="center" ng-show="saveFail">
-            <div class="panel-heading">
-                <div class="row" align="center">Opps!Saving fails.</div>
-            </div>            
-            <div class="panel-body">
-                <div><img src="icon/network connection.gif"></img></div>
-                <div><p>There is something wrong with the Internet connection. Please check it again.</p></div>
-            </div>
-            <div class="panel-footer">
-                <button class="alarm">OK</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="panel" id="delete" align="center" ng-show="delete_warning">
-            <div class="panel-heading">
-                <div class="row" align="center">Sure to delete?</div>
-            </div>
-            <div class="panel-body">
-                <div><img src="icon/delete.gif"></img></div>
-                <div><p>Dragging items out of the parking lot means deleting it. Are you sure to delete it?</p></div>
-            </div>
-            <div class="panel-footer">
-                <button class="alarm">Cancel</button>
-                <button class="alarm">Delete</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="panel" id="networkFailure" align="center" ng-show="networkFail">
-            <div class="panel-heading">
-                <div class="row" align="center">Poor network</div>
-            </div>
-            <div class="panel-body">
-                <div><img src="icon/poor network.gif"></img></div>
-                <div><p>Poor network, but we are trying to fix it. Please wait for a moment.</p></div>
-            </div>
-        </div>
-    </div>
-
-   
