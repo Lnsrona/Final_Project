@@ -15,14 +15,13 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      		Meeting.addDay(tmpDate.getFullYear(),tmpDate.getMonth(),tmpDate.getDate());
      	}
      }
-     var currentDate = 3;
-     $scope.activities = Meeting.days[currentDate]._activities;
-     $scope.startTime = Meeting.days[currentDate].getStart();
+     $scope.activities = Meeting.days[CurrentDate]._activities;
+     $scope.startTime = Meeting.days[CurrentDate].getStart();
      $scope.totalLength = function() {
-     	return Meeting.days[currentDate].getTotalLength();
+     	return Meeting.days[CurrentDate].getTotalLength();
      }
      $scope.endTime = function() {
-     	return Meeting.days[currentDate].getEnd();
+     	return Meeting.days[CurrentDate].getEnd();
      }
      $scope.setStart = function() {
      	var flag = 0;
@@ -34,17 +33,17 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      		}
      	}
      	if (flag==0 || flag>2) {
-     		$scope.startTime = Meeting.days[currentDate].getStart();
+     		$scope.startTime = Meeting.days[CurrentDate].getStart();
      		return;
      	}
      	if (flag==1) {
      		if (isNaN($scope.startTime[0]) || isNaN($scope.startTime[2]) || $scope.startTime.length>4) {
-     			$scope.startTime = Meeting.days[currentDate].getStart();
+     			$scope.startTime = Meeting.days[CurrentDate].getStart();
      			return;
      		}
      		if ($scope.startTime.length==4) {
      			if (isNaN($scope.startTime[3])) {
-     				$scope.startTime = Meeting.days[currentDate].getStart();
+     				$scope.startTime = Meeting.days[CurrentDate].getStart();
      				return;
      			}
      			min = parseInt($scope.startTime[2] + "" + $scope.startTime[3]);
@@ -56,12 +55,12 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      	}
      	if (flag==2) {
      		if (isNaN($scope.startTime[0]) || isNaN($scope.startTime[1]) || isNaN($scope.startTime[3])) {
-     			$scope.startTime = Meeting.days[currentDate].getStart();
+     			$scope.startTime = Meeting.days[CurrentDate].getStart();
      			return;
      		}
      		if ($scope.startTime.length==5) {
      			if (isNaN($scope.startTime[4])) {
-     				$scope.startTime = Meeting.days[currentDate].getStart();
+     				$scope.startTime = Meeting.days[CurrentDate].getStart();
      				return;
      			}
      			min = parseInt($scope.startTime[3] + "" + $scope.startTime[4]);
@@ -72,26 +71,26 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      		hour = parseInt($scope.startTime[0] + "" + $scope.startTime[1]);
      	}
      	if (hour>23 || min>59) {
-     		$scope.startTime = Meeting.days[currentDate].getStart();
+     		$scope.startTime = Meeting.days[CurrentDate].getStart();
      		return;
      	}
-     	Meeting.days[currentDate].setStart(hour,min);
-     	$scope.startTime = Meeting.days[currentDate].getStart();
+     	Meeting.days[CurrentDate].setStart(hour,min);
+     	$scope.startTime = Meeting.days[CurrentDate].getStart();
      }
      $scope.changeDate = function (x) {
-     	if (x==0 && currentDate>0) {
-     		currentDate--;
-     		$scope.activities = Meeting.days[currentDate]._activities;
-     		$scope.startTime = Meeting.days[currentDate].getStart();
+     	if (x==0 && CurrentDate>0) {
+     		CurrentDate--;
+     		$scope.activities = Meeting.days[CurrentDate]._activities;
+     		$scope.startTime = Meeting.days[CurrentDate].getStart();
      	}
-     	if (x==1 && currentDate<6) {
-     		currentDate++;
-     		$scope.activities = Meeting.days[currentDate]._activities;
-     		$scope.startTime = Meeting.days[currentDate].getStart();
+     	if (x==1 && CurrentDate<6) {
+     		CurrentDate++;
+     		$scope.activities = Meeting.days[CurrentDate]._activities;
+     		$scope.startTime = Meeting.days[CurrentDate].getStart();
      	}
      }
      $scope.getActivityTime = function(position) {
-     	var activityTime = Meeting.days[currentDate]._start;
+     	var activityTime = Meeting.days[CurrentDate]._start;
      	var hours, minutes;
      	for (var i=0; i<position; i++) {
      		activityTime += $scope.activities[i].getLength();
@@ -111,15 +110,15 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      	return hours + ":" + minutes;
      }
      $scope.dateDisplay = function () {
-     	if (Meeting.days[currentDate]._month == today.getMonth() && Meeting.days[currentDate]._day == today.getDate()) {
-     		return Meeting.days[currentDate]._monthDisplay + " " + Meeting.days[currentDate]._dayDisplaiy + " (Today)";
+     	if (Meeting.days[CurrentDate]._month == today.getMonth() && Meeting.days[CurrentDate]._day == today.getDate()) {
+     		return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy + " (Today)";
      	}
      	else {
-     		return Meeting.days[currentDate]._monthDisplay + " " + Meeting.days[currentDate]._dayDisplaiy;
+     		return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy;
      	}
      }
      $scope.removeActivity = function(position) {
-     	Meeting.days[currentDate]._removeActivity(position);
+     	Meeting.days[CurrentDate]._removeActivity(position);
      	if (position == chosenPosition) {
      		$scope.name = "";
      		$scope.duration = undefined;
@@ -134,7 +133,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      	Meeting.removeParkedActivity(position);
      }
      $scope.moveParkedToDay = function (activity,position) {
-     	Meeting.addActivity(activity,currentDate);
+     	Meeting.addActivity(activity,CurrentDate);
      	Meeting.removeParkedActivity(position);
      }
      $scope.setType = function(btnType) {
@@ -181,10 +180,10 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      		typeID = 3;
      	}
      	if (editMode ==1) {
-     		Meeting.days[currentDate]._activities[chosenPosition].setName($scope.name);
-     		Meeting.days[currentDate]._activities[chosenPosition].setLength($scope.duration);
-     		Meeting.days[currentDate]._activities[chosenPosition].setTypeId(typeID);
-     		Meeting.days[currentDate]._activities[chosenPosition].setDescription($scope.description);
+     		Meeting.days[CurrentDate]._activities[chosenPosition].setName($scope.name);
+     		Meeting.days[CurrentDate]._activities[chosenPosition].setLength($scope.duration);
+     		Meeting.days[CurrentDate]._activities[chosenPosition].setTypeId(typeID);
+     		Meeting.days[CurrentDate]._activities[chosenPosition].setDescription($scope.description);
      	}
      	else if (editMode ==2) {
      		Meeting.parkedActivities[chosenPosition].setName($scope.name);
@@ -213,5 +212,33 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      	editMode=0;
      }
 
-
+     $scope.onDrop = function(index, type, data){
+          var newPosition = index;
+          var newType = type;
+          var oldType = data[0];
+          var oldPosition = data[1];
+          if (newPosition==-1) {
+               if (type=="P") {
+                    newPosition = Meeting.parkedActivities.length;
+               }
+               else {
+                    newPosition = $scope.activities.length;
+               }
+          }
+          for (var i=2; i<data.length; i++) {
+               oldPosition += data[i];
+          }
+          if (oldType =="P" && newType=="P") {
+               Meeting.moveActivity(null,oldPosition,null,newPosition);
+          }
+          else if (oldType=="P" && newType=="D") {
+               Meeting.moveActivity(null,oldPosition,CurrentDate,newPosition);
+          }
+          else if (oldType=="D" && newType=="D") {
+               Meeting.moveActivity(CurrentDate,oldPosition,CurrentDate,newPosition);
+          }
+          else {
+               Meeting.moveActivity(CurrentDate,oldPosition,null,newPosition);
+          }
+     }
 });

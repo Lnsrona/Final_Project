@@ -59,18 +59,16 @@
             </div>
             
             <hr>
-            
+
             <div id="eventOrder">
-            <table class="eventList" ng-repeat="event in activities">
-                <tr ng-click="editActivity($index, 1)" draggable="true">
+            <table class="eventList" ng-repeat="dayActivity in activities">
+                <tr ng-click="editActivity($index, 1)" ui-draggable="true" drag="'D' + $index" ui-on-Drop="onDrop($index,'D',$data)">
                     <td>{{getActivityTime($index)}}</td>
-                    <td bgcolor="{{event.getColor(event.getTypeId())}}">{{event.getName()}}</td>
+                    <td bgcolor="{{dayActivity.getColor(dayActivity.getTypeId())}}">{{dayActivity.getName()}}</td>
                     <td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeActivity($index)"></td>
-                </tr> 
-                <tr >
-                    <td >&nbsp;</td>                   
-                </tr>                                           
+                </tr>                                            
             </table>
+            <div ui-on-Drop="onDrop(-1,'D',$data)">Drop an activity here</div>
             </div>
         </div>
     </div>
@@ -122,15 +120,13 @@
             
             <div id="event_list" ng-hide="addActi">
                 <table class="eventList" ng-repeat="parkedActivity in parkedActivities">
-                    <tr ng-click="moveParkedToDay(parkedActivity,$index)" draggable="true">
+                    <tr ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">
                         <td>{{parkedActivity.getLength()}} min</td>
                         <td bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}">{{parkedActivity.getName()}}</td>
                         <td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>
-                    </tr> 
-                    <tr >
-                        <td >&nbsp;</td>                   
-                    </tr>                                  
+                    </tr>
                 </table>
+                <div ui-on-Drop="onDrop(-1,'P',$data)">Drop an activity here</div>
             </div>
                                  
         </div>
