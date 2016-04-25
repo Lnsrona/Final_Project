@@ -18,11 +18,17 @@
 .page1{
     position:relative;
     left:40%;
+   
 }
 
 .page2{
     position:relative;
     left:20%;
+    
+}
+
+.panel-body{
+    height:500px;
 }
 
 
@@ -85,7 +91,7 @@ table
 
 .cancel-btn{
     background-color:#df5362;
-    width:fixed;
+    width:60px;
 }
 
 .cancel{
@@ -100,12 +106,17 @@ table
 
 .save-btn{
     background-color:#9bcb68;
-    width:fixed;
+    width:60px;
 }
 
 
 .form-control description{
     position:abosulute;
     height:200px;
+}
+
+.input_name{
+    position:abosulute;
+    overflow:hidden;
 }
 

@@ -64,8 +64,11 @@
             <table class="eventList" ng-repeat="event in activities">
                 <tr ng-click="editActivity($index, 1)" draggable="true">
                     <td width="20%">{{getActivityTime($index)}}</td>
-                    <td width="60%" bgcolor="{{event.getColor(event.getTypeId())}}">{{event.getName()}}</td>
-                    <td width="20%"><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeActivity($index)"></td>
+                    <td width="70%" class="input_name" bgcolor="{{event.getColor(event.getTypeId())}}">{{event.getName()}}</td>
+                    <td width="10%"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeActivity($index)"><span aria-hidden="true">&times;</span></button></td>
+                                    
+                    <!--<td width="20%"><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeActivity($index)"></td>
+                -->
                 </tr> 
                 <tr >
                     <td >&nbsp;</td>                   
@@ -124,8 +127,10 @@
                 <table class="eventList" ng-repeat="parkedActivity in parkedActivities">
                     <tr ng-click="moveParkedToDay(parkedActivity,$index)" draggable="true">
                         <td width="20%">{{parkedActivity.getLength()}} min</td>
-                        <td width="60%" bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}">{{parkedActivity.getName()}}</td>
-                        <td width="20%"><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>
+                        <td width="70%" class="input_name" bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}">{{parkedActivity.getName()}}</td>
+                         <td width="10%"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeParkedActivity($index)"><span aria-hidden="true">&times;</span></button></td>
+                        <!--<td width="20%"><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>
+                    -->
                     </tr> 
                     <tr >
                         <td >&nbsp;</td>                   
