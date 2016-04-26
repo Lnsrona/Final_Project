@@ -85,7 +85,7 @@ table
 
 .cancel-btn{
     background-color:#df5362;
-    width:fixed;
+    width:60px;
 }
 
 .cancel{
@@ -100,12 +100,18 @@ table
 
 .save-btn{
     background-color:#9bcb68;
-    width:fixed;
+    width:60px;
 }
 
 
 .form-control description{
     position:abosulute;
     height:200px;
+}
+
+.event-name{  
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    width:12em;
 }
 
