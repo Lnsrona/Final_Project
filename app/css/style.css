@@ -67,7 +67,20 @@ table
 
 .panel-body{
     background-color:#f6f8fb;
+    
+    /*border: 0;*/
     /*padding: 1;*/
+}
+
+.first{
+    margin:0;
+    padding-bottom:0;
+}
+
+.second{
+    padding-top: 0;
+    padding-bottom:0;
+    margin:0;
 }
 
 .event{
@@ -86,6 +99,8 @@ table
 .cancel-btn{
     background-color:#df5362;
     width:60px;
+    border:0;
+    font-color:white;
 }
 
 .cancel{
@@ -101,6 +116,8 @@ table
 .save-btn{
     background-color:#9bcb68;
     width:60px;
+    border:0;
+    font-color:white;
 }
 
 
@@ -114,7 +131,8 @@ table
     text-overflow: ellipsis; 
     width:12em;
     /*background-color: white;*/
-    
+    padding-left: 15px;
+    padding-right:15px;
  
 }
 
@@ -129,6 +147,20 @@ td{
     border-color: #f6f8fb;
     border-style: dotted;
 }
+
+.drop{
+    padding:15px;
+}
+
+/*hr{
+    padding:0;
+    margin:0;
+}*/
+
+.canvas{
+    margin-top:6px;
+}
+
 
 
 

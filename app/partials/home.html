@@ -29,13 +29,13 @@
         <div class="page1">
     <div class="panel">
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-chevron-left prev_btn" aria-hidden="true" ng-click="changeDate(0)"></span>
+            <span style="cursor:pointer" class="glyphicon glyphicon-chevron-left prev_btn" aria-hidden="true" ng-click="changeDate(0)"></span>
             <span>&nbsp;</span>
-            <span align="center">{{dateDisplay()}}</span>
+            <span><font color="white" size="4">{{dateDisplay()}}</font></span>
             <span>&nbsp;</span>
-            <span class="glyphicon glyphicon-chevron-right next_btn" aria-hidden="true" ng-click="changeDate(1)"></span>
+            <span style="cursor:pointer" class="glyphicon glyphicon-chevron-right next_btn" aria-hidden="true" ng-click="changeDate(1)"></span>
         </div>   
-        <div class="panel-body">
+        <div class="panel-body first">
             <div class="row">
                 <div class="col-md-7">
                     <table>
@@ -45,7 +45,7 @@
                     </table>
                 </div>
                 <div class="col-md-5">
-                <canvas id="myCanvas" width="80" height="80"></canvas>
+                <canvas class="canvas" id="myCanvas" width="80" height="80"></canvas>
                 </div>
             </div>
             
@@ -54,14 +54,14 @@
             <div id="eventOrder">
             <table class="eventList" ng-repeat="dayActivity in activities">
                 <tr ng-click="editActivity($index, 1)" ui-draggable="true" drag="'D' + $index" ui-on-Drop="onDrop($index,'D',$data)">
-                    <td width="20%">{{getActivityTime($index)}}</td>
-                    <td width="70%" bgcolor="#f6f8fb"><div style="background-color:{{dayActivity.getColor(dayActivity.getTypeId())}};" class="event-name">{{dayActivity.getName()}}</div></td>
-                    <td width="10%"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeActivity($index)"><span aria-hidden="true">&times;</span></button></td>
+                    <td width="20%"><span style="cursor:pointer">{{getActivityTime($index)}}</span></td>
+                    <td width="70%" bgcolor="#f6f8fb"><span style="cursor:pointer"><div style="background-color:{{dayActivity.getColor(dayActivity.getTypeId())}};" class="event-name">{{dayActivity.getName()}}</div></span></td>
+                    <td width="10%"><span style="cursor:pointer"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeActivity($index)"><span aria-hidden="true">&times;</span></button></span></td>
                     <!--<td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeActivity($index)"></td>
                 -->
                 </tr>                                            
             </table>
-            <div ui-on-Drop="onDrop(-1,'D',$data)">Drop an activity here</div>
+            <div class="drop" ui-on-Drop="onDrop(-1,'D',$data)" align="center">Drop an activity here</div>
             </div>
         </div>
     </div>
@@ -74,9 +74,9 @@
         <div class="page2">
     <div class="panel">
         <div class="panel-heading">
-            <div ng-click="addActi=true" class="row" align="center">{{modeTitle}}</div>
+            <div ng-click="addActi=true" class="row" align="center"><span style="cursor:pointer"><font color="white" size="4">{{modeTitle}}</font></span></div>
         </div>
-        <div class="panel-body">
+        <div class="panel-body second">
             <div id="input_page" ng-show="addActi">
                 <br/><input id="nameInput" type="text" class="form-control" placeholder="Name" maxlength="50" ng-model="name"><br/>
                 <br/>
@@ -105,33 +105,33 @@
 
                 <table>
                     <tr>
-                        <td class="cancel"><button ng-click="btnCancel()" class="cancel-btn">Cancel</button></td>
-                        <td class="save"><button ng-click="btnSave()" class="save-btn">Save</button></td>
+                        <td class="cancel"><button ng-click="btnCancel()" class="cancel-btn"><font color="white">Cancel</font></button></td>
+                        <td class="save"><button ng-click="btnSave()" class="save-btn"><font color="white">Save</font></button></td>
                     </tr>
                 </table>
+                <br/>
             </div>  
             
             <div id="event_list" ng-hide="addActi">
-                <table class="eventList" ng-repeat="parkedActivity in parkedActivities">
-                    
-                    <tr ng-click="editActivity($index, 2)" ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">                                     
-                        <td width="25%"><div class="eventstyle">{{parkedActivity.getLength()}} min</div></td>
-                        
-                        <td width="65%" bgcolor="#f6f8fb"><div style="background-color:{{parkedActivity.getColor(parkedActivity.getTypeId())}};" class="event-name">{{parkedActivity.getName()}}</div></td>
+                <table class="eventList" ng-repeat="parkedActivity in parkedActivities">                   
+                    <tr ng-click="editActivity($index, 2)" ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">                                                            
+                        <td width="25%"><span style="cursor:pointer"><div class="eventstyle">{{parkedActivity.getLength()}} min</div></span></td>             
+                        <td width="65%" bgcolor="#f6f8fb"><span style="cursor:pointer"><div style="background-color:{{parkedActivity.getColor(parkedActivity.getTypeId())}};" class="event-name">{{parkedActivity.getName()}}</div></span></td>
                         <!--<td width="65%" bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}"><div style="background-color:{{parkedActivity.getColor(parkedActivity.getTypeId())}};" class="event-name">{{parkedActivity.getName()}}</div></td>
                         -->
-                        <td width="10%"><div class="eventstyle"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeParkedActivity($index)"><span aria-hidden="true">&times;</span></button></div></td>                    
+                        <td width="10%"><span style="cursor:pointer"><div class="eventstyle"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeParkedActivity($index)"><span aria-hidden="true">&times;</span></button></div></span></td>                    
                         <!--<td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>
                     -->
+                        </span>
                     </tr>
-                   
+                  
                 </table>
                 
                 
                 
                 
                 
-                <div ui-on-Drop="onDrop(-1,'P',$data)">Drop an activity here</div>
+                <div class="drop" ui-on-Drop="onDrop(-1,'P',$data)" align="center">Drop an activity here</div>
             </div>
                                  
         </div>
