@@ -14,6 +14,9 @@
     height:40px;
 }
 
+.panel-heading{
+    height:46px;
+}
 
 .page1{
     position:relative;
@@ -31,13 +34,22 @@
 .prev_btn
 {
     float: left;
+    vertical-align: middle;
 }
 
 .next_btn
 {
     float: right;
+    vertical-align: middle;
 }
 
+.date{
+    width:90%;
+    float:left;
+    
+    /*display:inline-block;
+    left:30%;*/
+}
 
 table
 {
@@ -104,12 +116,12 @@ table
 
 .cancel{
     position:relative;
-    left:10%;
+    left:12%;
 }
 
 .save{
     position:relative;
-    left:10%;
+    left:15%;
 }
 
 .save-btn{
@@ -121,7 +133,7 @@ table
 
 .form-control description{
     position:abosulute;
-    height:200px;
+    /*height:200px;*/
 }
 
 .event-name{  
@@ -161,12 +173,4 @@ td{
 .canvas{
     margin-top:6px;
 }
-
-
-
-
-
-
-
-
 
