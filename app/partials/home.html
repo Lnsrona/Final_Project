@@ -33,28 +33,15 @@
         </div>   
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-7">
                     <table>
                         <tr><td>Start time: <input type="text" maxlength="5" style="max-width:50px; text-align:center" ng-model="startTime" ng-blur="setStart()"></td></tr>
                         <tr><td>End time: {{endTime()}}</td></tr>
                         <tr><td>Total length: {{totalLength()}} min</td></tr>
                     </table>
                 </div>
-                <div class="col-md-4">
-                    <table class="progress">                       
-                        <tr ng-repeat="event_p in activities_P">
-                            <td bgcolor="#9bcdc5">&nbsp;</td>                            
-                        </tr> 
-                        <tr ng-repeat="event_B in activities_D">
-                            <td bgcolor="#a0c25f">&nbsp;</td>                            
-                        </tr> 
-                        <tr ng-repeat="event_G in activities_G">
-                            <td bgcolor="#e98665">&nbsp;</td>                            
-                        </tr> 
-                        <tr ng-repeat="event_D in activities_B">
-                            <td bgcolor="#f6e66e">&nbsp;</td>                            
-                        </tr>                        
-                    </table>
+                <div class="col-md-5">
+                <canvas id="myCanvas" width="80" height="80"></canvas>
                 </div>
             </div>
             
@@ -120,7 +107,7 @@
             
             <div id="event_list" ng-hide="addActi">
                 <table class="eventList" ng-repeat="parkedActivity in parkedActivities">
-                    <tr ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">
+                    <tr ng-click="editActivity($index, 2)" ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">
                         <td>{{parkedActivity.getLength()}} min</td>
                         <td bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}">{{parkedActivity.getName()}}</td>
                         <td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>

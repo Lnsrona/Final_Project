@@ -8,85 +8,85 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      $scope.parkedActivities = Meeting.parkedActivities;
      var chosenPosition;
      var editMode = 0;
+     var drawCanvas = function() {
+          var height = new Array(4);
+          var canvasHeight = 80;
+          var canvasWidth = 60;
+          var getCanvas = document.getElementById("myCanvas");
+          var myCanvas = getCanvas.getContext("2d");
+          var currentY=0;
+          if (Meeting.days[CurrentDate].getTotalLength()) {
+               for (var i=0; i<4; i++) {
+                    if (Meeting.days[CurrentDate].getLengthByType(i)) {
+                         height[i] = canvasHeight * Meeting.days[CurrentDate].getLengthByType(i) / Meeting.days[CurrentDate].getTotalLength();
+                    }
+                    else {
+                         height[i] = 0;
+                    }
+               }
+          }
+          else {
+               myCanvas.clearRect(0,0,canvasWidth+20,canvasHeight);
+               myCanvas.fillStyle = "#000000";
+               myCanvas.fillRect(10,0,canvasWidth,canvasHeight);
+               return;
+          }
+          for (var i=0; i<4; i++) {
+               myCanvas.clearRect(10,currentY,canvasWidth,height[i]);
+               myCanvas.fillStyle=ColorType[i];
+               myCanvas.fillRect(10,currentY,canvasWidth,height[i]);
+               currentY += height[i];
+          }
+          currentY = canvasHeight * 0.7;
+          myCanvas.strokeStyle = "red";
+          myCanvas.moveTo(0,currentY);
+          myCanvas.lineTo(canvasWidth+20,currentY);
+          myCanvas.stroke();
+     }
+
      var today = new Date();
      if (Meeting.days.length==0) {
      	for (var i=-3; i<=3; i++) {
      		var tmpDate = new Date((today/1000+i*86400)*1000);
      		Meeting.addDay(tmpDate.getFullYear(),tmpDate.getMonth(),tmpDate.getDate());
      	}
+          drawCanvas();
      }
      $scope.activities = Meeting.days[CurrentDate]._activities;
      $scope.startTime = Meeting.days[CurrentDate].getStart();
+     $scope.dateDisplay = function () {
+          if (CurrentDate == 3) {
+               return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy + " (Today)";
+          }
+          else if (CurrentDate == 0) {
+               return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy + " (Min)";
+          }
+          else if (CurrentDate == 6) {
+               return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy + " (Max)";
+          }
+          else {
+               return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy;
+          }
+     }
+
      $scope.totalLength = function() {
      	return Meeting.days[CurrentDate].getTotalLength();
      }
      $scope.endTime = function() {
      	return Meeting.days[CurrentDate].getEnd();
      }
-     $scope.setStart = function() {
-     	var flag = 0;
-     	var hour, min;
-     	for (var i=0; i<$scope.startTime.length; i++) {
-     		if ($scope.startTime[i]==":") {
-     			flag = i;
-     			break;
-     		}
-     	}
-     	if (flag==0 || flag>2) {
-     		$scope.startTime = Meeting.days[CurrentDate].getStart();
-     		return;
-     	}
-     	if (flag==1) {
-     		if (isNaN($scope.startTime[0]) || isNaN($scope.startTime[2]) || $scope.startTime.length>4) {
-     			$scope.startTime = Meeting.days[CurrentDate].getStart();
-     			return;
-     		}
-     		if ($scope.startTime.length==4) {
-     			if (isNaN($scope.startTime[3])) {
-     				$scope.startTime = Meeting.days[CurrentDate].getStart();
-     				return;
-     			}
-     			min = parseInt($scope.startTime[2] + "" + $scope.startTime[3]);
-     		}
-     		else {
-     			min = parseInt($scope.startTime[2]);
-     		}
-     		hour = $scope.startTime[0];
-     	}
-     	if (flag==2) {
-     		if (isNaN($scope.startTime[0]) || isNaN($scope.startTime[1]) || isNaN($scope.startTime[3])) {
-     			$scope.startTime = Meeting.days[CurrentDate].getStart();
-     			return;
-     		}
-     		if ($scope.startTime.length==5) {
-     			if (isNaN($scope.startTime[4])) {
-     				$scope.startTime = Meeting.days[CurrentDate].getStart();
-     				return;
-     			}
-     			min = parseInt($scope.startTime[3] + "" + $scope.startTime[4]);
-     		}
-     		else {
-     			min = parseInt($scope.startTime[3]);
-     		}
-     		hour = parseInt($scope.startTime[0] + "" + $scope.startTime[1]);
-     	}
-     	if (hour>23 || min>59) {
-     		$scope.startTime = Meeting.days[CurrentDate].getStart();
-     		return;
-     	}
-     	Meeting.days[CurrentDate].setStart(hour,min);
-     	$scope.startTime = Meeting.days[CurrentDate].getStart();
-     }
      $scope.changeDate = function (x) {
      	if (x==0 && CurrentDate>0) {
      		CurrentDate--;
      		$scope.activities = Meeting.days[CurrentDate]._activities;
      		$scope.startTime = Meeting.days[CurrentDate].getStart();
+               drawCanvas();
      	}
      	if (x==1 && CurrentDate<6) {
      		CurrentDate++;
      		$scope.activities = Meeting.days[CurrentDate]._activities;
      		$scope.startTime = Meeting.days[CurrentDate].getStart();
+               drawCanvas();
      	}
      }
      $scope.getActivityTime = function(position) {
@@ -109,14 +109,6 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
 		}
      	return hours + ":" + minutes;
      }
-     $scope.dateDisplay = function () {
-     	if (Meeting.days[CurrentDate]._month == today.getMonth() && Meeting.days[CurrentDate]._day == today.getDate()) {
-     		return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy + " (Today)";
-     	}
-     	else {
-     		return Meeting.days[CurrentDate]._monthDisplay + " " + Meeting.days[CurrentDate]._dayDisplaiy;
-     	}
-     }
      $scope.removeActivity = function(position) {
      	Meeting.days[CurrentDate]._removeActivity(position);
      	if (position == chosenPosition) {
@@ -128,12 +120,9 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      		$scope.modeTitle = "+ Add activity";
      		editMode=0;
      	}
+          drawCanvas();
      }
      $scope.removeParkedActivity = function(position) {
-     	Meeting.removeParkedActivity(position);
-     }
-     $scope.moveParkedToDay = function (activity,position) {
-     	Meeting.addActivity(activity,CurrentDate);
      	Meeting.removeParkedActivity(position);
      }
      $scope.setType = function(btnType) {
@@ -184,6 +173,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      		Meeting.days[CurrentDate]._activities[chosenPosition].setLength($scope.duration);
      		Meeting.days[CurrentDate]._activities[chosenPosition].setTypeId(typeID);
      		Meeting.days[CurrentDate]._activities[chosenPosition].setDescription($scope.description);
+               drawCanvas();
      	}
      	else if (editMode ==2) {
      		Meeting.parkedActivities[chosenPosition].setName($scope.name);
@@ -211,7 +201,60 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      	$scope.modeTitle = "+ Add activity";
      	editMode=0;
      }
-
+     $scope.setStart = function() {
+          var flag = 0;
+          var hour, min;
+          for (var i=0; i<$scope.startTime.length; i++) {
+               if ($scope.startTime[i]==":") {
+                    flag = i;
+                    break;
+               }
+          }
+          if (flag==0 || flag>2) {
+               $scope.startTime = Meeting.days[CurrentDate].getStart();
+               return;
+          }
+          if (flag==1) {
+               if (isNaN($scope.startTime[0]) || isNaN($scope.startTime[2]) || $scope.startTime.length>4) {
+                    $scope.startTime = Meeting.days[CurrentDate].getStart();
+                    return;
+               }
+               if ($scope.startTime.length==4) {
+                    if (isNaN($scope.startTime[3])) {
+                         $scope.startTime = Meeting.days[CurrentDate].getStart();
+                         return;
+                    }
+                    min = parseInt($scope.startTime[2] + "" + $scope.startTime[3]);
+               }
+               else {
+                    min = parseInt($scope.startTime[2]);
+               }
+               hour = $scope.startTime[0];
+          }
+          if (flag==2) {
+               if (isNaN($scope.startTime[0]) || isNaN($scope.startTime[1]) || isNaN($scope.startTime[3])) {
+                    $scope.startTime = Meeting.days[CurrentDate].getStart();
+                    return;
+               }
+               if ($scope.startTime.length==5) {
+                    if (isNaN($scope.startTime[4])) {
+                         $scope.startTime = Meeting.days[CurrentDate].getStart();
+                         return;
+                    }
+                    min = parseInt($scope.startTime[3] + "" + $scope.startTime[4]);
+               }
+               else {
+                    min = parseInt($scope.startTime[3]);
+               }
+               hour = parseInt($scope.startTime[0] + "" + $scope.startTime[1]);
+          }
+          if (hour>23 || min>59) {
+               $scope.startTime = Meeting.days[CurrentDate].getStart();
+               return;
+          }
+          Meeting.days[CurrentDate].setStart(hour,min);
+          $scope.startTime = Meeting.days[CurrentDate].getStart();
+     }
      $scope.onDrop = function(index, type, data){
           var newPosition = index;
           var newType = type;
@@ -233,12 +276,14 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
           }
           else if (oldType=="P" && newType=="D") {
                Meeting.moveActivity(null,oldPosition,CurrentDate,newPosition);
+               drawCanvas();
           }
           else if (oldType=="D" && newType=="D") {
                Meeting.moveActivity(CurrentDate,oldPosition,CurrentDate,newPosition);
           }
           else {
                Meeting.moveActivity(CurrentDate,oldPosition,null,newPosition);
+               drawCanvas();
           }
      }
 });
