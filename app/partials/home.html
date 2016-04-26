@@ -13,15 +13,19 @@
             <a class="btn" ng-click="save=true; save()"><img ng-hide="save" src="icon/save_btn.gif"/><img ng-show="save" src="icon/saved.gif"></img></a>
             <a class="btn" ng-click="synchronize=true; synchronize()"><img ng-hide="synchronize" src="icon/synchronize_btn.gif"/><img ng-show="synchronize" src="icon/synchronized.gif"></img></a>
         </div>
-    </div>
-    <!--</div>
-</div>-->
+    </div>    
+</div>
+
+<br/>
+
+<div id="notification">
+    
 </div>
 
 <br/>
 
 <div class="col-md-6">
-    <div class="col-md-8" align="center">
+    <!--<div class="col-md-8" align="center">-->
         <div class="page1">
     <div class="panel">
         <div class="panel-heading">
@@ -51,7 +55,7 @@
             <table class="eventList" ng-repeat="dayActivity in activities">
                 <tr ng-click="editActivity($index, 1)" ui-draggable="true" drag="'D' + $index" ui-on-Drop="onDrop($index,'D',$data)">
                     <td width="20%">{{getActivityTime($index)}}</td>
-                    <td width="70%" bgcolor="{{dayActivity.getColor(dayActivity.getTypeId())}}"><div class="event-name">{{dayActivity.getName()}}</div></td>
+                    <td width="70%" bgcolor="#f6f8fb"><div style="background-color:{{dayActivity.getColor(dayActivity.getTypeId())}};" class="event-name">{{dayActivity.getName()}}</div></td>
                     <td width="10%"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeActivity($index)"><span aria-hidden="true">&times;</span></button></td>
                     <!--<td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeActivity($index)"></td>
                 -->
@@ -62,11 +66,11 @@
         </div>
     </div>
 </div>
-</div>
+<!--</div>-->
 </div>
 
 <div class="col-md-6">
-    <div class="col-md-8" align="center">
+    <!--<div class="col-md-8" align="center">-->
         <div class="page2">
     <div class="panel">
         <div class="panel-heading">
@@ -109,14 +113,24 @@
             
             <div id="event_list" ng-hide="addActi">
                 <table class="eventList" ng-repeat="parkedActivity in parkedActivities">
-                    <tr ng-click="editActivity($index, 2)" ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">
-                        <td width="20%">{{parkedActivity.getLength()}} min</td>
-                        <td width="70%" bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}"><div class="event-name">{{parkedActivity.getName()}}</div></td>
-                        <td width="10%"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeParkedActivity($index)"><span aria-hidden="true">&times;</span></button></td>                    
+                    
+                    <tr ng-click="editActivity($index, 2)" ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">                                     
+                        <td width="25%"><div class="eventstyle">{{parkedActivity.getLength()}} min</div></td>
+                        
+                        <td width="65%" bgcolor="#f6f8fb"><div style="background-color:{{parkedActivity.getColor(parkedActivity.getTypeId())}};" class="event-name">{{parkedActivity.getName()}}</div></td>
+                        <!--<td width="65%" bgcolor="{{parkedActivity.getColor(parkedActivity.getTypeId())}}"><div style="background-color:{{parkedActivity.getColor(parkedActivity.getTypeId())}};" class="event-name">{{parkedActivity.getName()}}</div></td>
+                        -->
+                        <td width="10%"><div class="eventstyle"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeParkedActivity($index)"><span aria-hidden="true">&times;</span></button></div></td>                    
                         <!--<td><button class="glyphicon glyphicon-remove" style="float:right" ng-click="removeParkedActivity($index)"></td>
                     -->
                     </tr>
+                   
                 </table>
+                
+                
+                
+                
+                
                 <div ui-on-Drop="onDrop(-1,'P',$data)">Drop an activity here</div>
             </div>
                                  
@@ -124,5 +138,5 @@
         
     </div>
     </div>
-    </div>
+    <!--</div>-->
 </div>
