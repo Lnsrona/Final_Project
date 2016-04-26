@@ -53,7 +53,7 @@
 
             <div id="eventOrder">
             <table class="eventList" ng-repeat="dayActivity in activities">
-                <tr ng-click="editActivity($index, 1)" ui-draggable="true" drag="'D' + $index" ui-on-Drop="onDrop($index,'D',$data)">
+                <tr id="mouse" onmouseover="this.style.border='1px solid #A4A4A4'" onmouseout="this.style.border='0'" ng-click="editActivity($index, 1)" ui-draggable="true" drag="'D' + $index" ui-on-Drop="onDrop($index,'D',$data)">
                     <td width="20%"><span style="cursor:pointer">{{getActivityTime($index)}}</span></td>
                     <td width="70%" bgcolor="#f6f8fb"><span style="cursor:pointer"><div style="background-color:{{dayActivity.getColor(dayActivity.getTypeId())}};" class="event-name">{{dayActivity.getName()}}</div></span></td>
                     <td width="10%"><span style="cursor:pointer"><button type="button" class="close event-delete-btn" aria-label="Close" ng-click="removeActivity($index)"><span aria-hidden="true">&times;</span></button></span></td>
@@ -113,7 +113,7 @@
             </div>  
             
             <div id="event_list" ng-hide="addActi">
-                <table class="eventList" ng-repeat="parkedActivity in parkedActivities">                   
+                <table onmouseover="this.style.border='1px solid #D8D8D8'" onmouseout="this.style.border='0'" class="eventList" ng-repeat="parkedActivity in parkedActivities">                   
                     <tr ng-click="editActivity($index, 2)" ui-draggable="true" drag="'P' + $index" ui-on-Drop="onDrop($index,'P',$data)">                                                            
                         <td width="25%"><span style="cursor:pointer"><div class="eventstyle">{{parkedActivity.getLength()}} min</div></span></td>             
                         <td width="65%" bgcolor="#f6f8fb"><span style="cursor:pointer"><div style="background-color:{{parkedActivity.getColor(parkedActivity.getTypeId())}};" class="event-name">{{parkedActivity.getName()}}</div></span></td>
@@ -128,9 +128,7 @@
                 </table>
                 
                 
-                
-                
-                
+                                              
                 <div class="drop" ui-on-Drop="onDrop(-1,'P',$data)" align="center">Drop an activity here</div>
             </div>
                                  

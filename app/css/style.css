@@ -100,7 +100,6 @@ table
     background-color:#df5362;
     width:60px;
     border:0;
-    font-color:white;
 }
 
 .cancel{
@@ -117,7 +116,6 @@ table
     background-color:#9bcb68;
     width:60px;
     border:0;
-    font-color:white;
 }
 
 
@@ -150,6 +148,9 @@ td{
 
 .drop{
     padding:15px;
+    border:0.3;
+    border-style: dotted;
+    border-color: #D8D8D8;
 }
 
 /*hr{
@@ -160,6 +161,7 @@ td{
 .canvas{
     margin-top:6px;
 }
+
 
 
 
