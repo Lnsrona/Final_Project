@@ -7,10 +7,14 @@ var Months = ["January","February","March","April","May","June","July","August",
 var Days = ["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st"];
 var CurrentDate = 3;
 var clientId = "173219749680-im8nddl4noslsqfnqsj6vf0gs4di64l9.apps.googleusercontent.com";
-var scopes = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/cloud-platform";
+var scopes = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read";
 var logged = false;
+var fireLogged = false;
 var token;
 var syncBlock = false;
+var firebaseRef = new Firebase("https://scorching-heat-1940.firebaseio.com/");
+var dayPath = new Firebase("https://scorching-heat-1940.firebaseio.com/days");
+var parkPath = new Firebase("https://scorching-heat-1940.firebaseio.com/park");
 
 // This is an activity constructor
 // When you want to create a new activity you just call
@@ -31,6 +35,14 @@ function handleAuthResult(authResult) {
         token = gapi.auth.getToken().access_token;
         document.getElementById("login").style.display = 'none';
         document.getElementById("logout").style.display = '';
+        firebaseRef.authWithOAuthToken("google", token, function(error, authData) {
+        	if (error) {
+        		fireLogged = false;
+        	}
+        	else {
+        		fireLogged = true;
+        	}
+        });
     }
     else {
     	document.getElementById("logout").style.display = 'none';
@@ -40,60 +52,60 @@ function handleAuthResult(authResult) {
 }
 
 function Activity(name,length,typeid,description){
-	var _name = name;
-	var _length = parseInt(length);
-	var _typeid = typeid;
-	var _description = description;
+	this._name = name;
+	this._length = parseInt(length);
+	this._typeid = typeid;
+	this._description = description;
 	
 	// sets the name of the activity
 	this.setName = function(name) {
-		_name = name;
+		this._name = name;
 	}
 
 	// get the name of the activity
 	this.getName = function(name) {
-		return _name;
+		return this._name;
 	}
 	
 	// sets the length of the activity
 	this.setLength = function(length) {
-		_length = parseInt(length);
+		this._length = parseInt(length);
 	}
 
 	// get the name of the activity
 	this.getLength = function() {
-		return _length;
+		return this._length;
 	}
 	
 	// sets the typeid of the activity
 	this.setTypeId = function(typeid) {
-		_typeid = typeid;
+		this._typeid = typeid;
 	}
 
 	// get the type id of the activity
 	this.getTypeId = function() {
-		return _typeid;
+		return this._typeid;
 	}
 	
 	// sets the description of the activity
 	this.setDescription = function(description) {
-		_description = description;
+		this._description = description;
 	}
 
 	// get the description of the activity
 	this.getDescription = function() {
-		return _description;
+		return this._description;
 	}
 	
 	// This method returns the string representation of the
 	// activity type.
 	this.getType = function () {
-		return ActivityType[_typeid];
+		return ActivityType[this._typeid];
 	};
 
 	//get the background color of the activity
 	this.getColor = function (_typeid) {
-		return ColorType[_typeid];
+		return ColorType[this._typeid];
 	}
 }
 
@@ -108,6 +120,7 @@ function Day(startH,startM,YYYY,MM,DD) {
 	this._day = DD;
 	this._monthDisplay = Months[MM];
 	this._dayDisplaiy = Days[DD-1];
+	this._fullDate = "" + YYYY + this._monthDisplay + this._dayDisplaiy;
 
 	// sets the start time to new value
 	this.setStart = function(startH,startM) {
@@ -204,7 +217,7 @@ function Day(startH,startM,YYYY,MM,DD) {
 
 
 // this is our main module that contians days and praked activites
-meetingPlannerApp.factory('Meeting',function ($resource,$cookieStore){
+meetingPlannerApp.factory('Meeting',function ($resource){
 
     this.newEvent = $resource('https://www.googleapis.com/calendar/v3/calendars/primary/events');
 

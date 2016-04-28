@@ -5,7 +5,8 @@
         <div align="center">
             <img id="login" class="btn" ng-click="login()" src="icon/log-in.gif"></img>
             <a id="logout" style="display:none" class="btn" href="https://accounts.google.com/logout"><img src="icon/log-out.gif"></img></a>
-            <a class="btn" ng-click="save=true; save()"><img src="icon/save.gif"/></a>
+            <a class="btn" ng-click="loadIt()"><img src="icon/load.gif"/></a>
+            <a class="btn" ng-click="saveIt()"><img src="icon/save.gif"/></a>
             <a class="btn" ng-click="pushToCal()"><img src="icon/push.gif"/></a>
         </div>
     </div>    
@@ -13,7 +14,7 @@
 
 <br/>
 
-<div id="notification" style="text-align:center;font-size:20px" >{{notification}}</div>
+<div id="notification">{{notification}}</div>
 
 <br/>
 
@@ -76,7 +77,7 @@
         </div>
         <div class="panel-body second">
             <div id="input_page" ng-show="addActi">
-                <br/><input id="nameInput" type="text" class="form-control" placeholder="Name" maxlength="50" ng-model="name"><br/>
+                <br/><input id="nameInput" type="text" class="form-control" placeholder="Title" maxlength="50" ng-model="name"><br/>
                 <br/>
                 <div class="input-group">
                     <input id="lengthInput" class="form-control" placeholder="Length (1-999)" onkeyup="value=value.replace(/\D|^0/g,'')" onpaste="return false;" maxlength="3" align="center" ng-model="duration">

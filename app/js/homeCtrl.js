@@ -10,13 +10,131 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      $scope.login = function() {
           gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false},handleAuthResult);
      }
+     $scope.loadIt = function() {
+          if (!logged) {
+               $scope.notification = "Please login to use this function.";
+               return;
+          }
+          if (!fireLogged && logged) {
+               $scope.notification = "You are logged in but failed connecting to the cloud database";
+               return;
+          }
+          if (syncBlock) {
+               $scope.notification = "Some other network access is processing, please wait a while.";
+               return;
+          }
+          $scope.notification = "Loading saved meeting schedule from cloud database...";
+          syncBlock = true;
+          var jsonToDay, jsonToPark;
+          dayPath.once("value",
+               function(jsonDay) {
+                    parkPath.once("value",
+                         function(jsonPark){
+                              var oldLength;
+                              jsonToDay = JSON.parse(jsonDay.val());
+                              jsonToPark = JSON.parse(jsonPark.val());
+                              for (var i=0; i<7; i++) {
+                                   for (var j=0; j<=7; j++) {
+                                        if (Meeting.days[i]._fullDate == jsonToDay[j]._fullDate) {
+                                             Meeting.days[i]._start = jsonToDay[j]._start;
+                                             oldLength = Meeting.days[i]._activities.length;
+                                             for (var k=0; k<oldLength; k++) {
+                                                  Meeting.days[i]._removeActivity(0);
+                                             }
+                                             for (var k=0; k<jsonToDay[j]._activities.length; k++) {
+                                                  Meeting.addActivity(
+                                                       new Activity(
+                                                            jsonToDay[j]._activities[k]._name,
+                                                            jsonToDay[j]._activities[k]._length,
+                                                            jsonToDay[j]._activities[k]._typeid,
+                                                            jsonToDay[j]._activities[k]._description
+                                                       ),i,k
+                                                  );
+                                             }
+                                             break;
+                                        }
+                                   }
+                              }
+                              oldLength = Meeting.parkedActivities.length;
+                              for (var i=0; i<oldLength; i++) {
+                                   Meeting.removeParkedActivity(0);
+                              }
+                              for (var i=0; i<jsonToPark.length; i++) {
+                                   Meeting.addParkedActivity(
+                                        new Activity(
+                                             jsonToPark[i]._name,
+                                             jsonToPark[i]._length,
+                                             jsonToPark[i]._typeid,
+                                             jsonToPark[i]._description
+                                        ),i
+                                   );
+                              }
+                              $scope.notification = "The meeting schedule has been loaded to client successfully.";
+                              drawCanvas();
+                              $scope.$apply();
+                              syncBlock = false;
+                         },
+                         function(error){
+                              $scope.notification = "Loading failed: " + error;
+                              $scope.$apply();
+                              syncBlock = false;
+                         }
+                    );
+               },
+               function(error) {
+                    $scope.notification = "Loading failed: " + error;
+                    $scope.$apply();
+                    syncBlock = false;
+                    return;
+               }
+          );
+     }
+     $scope.saveIt = function() {
+          if (!logged) {
+               $scope.notification = "Please login to use this function.";
+               return;
+          }
+          if (!fireLogged && logged) {
+               $scope.notification = "You are logged in but failed connecting to the cloud database";
+               return;
+          }
+          if (syncBlock) {
+               $scope.notification = "Some other network access is processing, please wait a while.";
+               return;
+          }
+          $scope.notification = "Saving meeting schedule to cloud database...";
+          syncBlock = true;
+          var dayToJson = JSON.stringify(Meeting.days);
+          var parkToJson = JSON.stringify(Meeting.parkedActivities);
+          dayPath.set(dayToJson,function(error){
+               if (error) {
+                    $scope.notification = "Saving failed: " + error;
+                    $scope.$apply();
+                    syncBlock = false;
+                    return;
+               }
+               else {
+                    parkPath.set(parkToJson, function(){
+                         if (error) {
+                              $scope.notification = "Saving failed: " + error;
+                              $scope.$apply();
+                         }
+                         else {
+                              $scope.notification = "The meeting schedule has been saved to cloud database successfully.";
+                              $scope.$apply();
+                         }
+                         syncBlock = false;
+                    });
+               }
+          });
+     }
      $scope.pushToCal = function() {
           if (!logged) {
                $scope.notification = "Please login to use this function.";
                return;
           }
           if (syncBlock) {
-               $scope.notification = "The schedule is being pushed to Google Calendar, please wait a while.";
+               $scope.notification = "Some other network access is pricessing, please wait a while.";
                return;
           }
           var thisDay = Meeting.days[CurrentDate];
