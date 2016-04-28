@@ -13,8 +13,8 @@ var fireLogged = false;
 var token;
 var syncBlock = false;
 var firebaseRef = new Firebase("https://scorching-heat-1940.firebaseio.com/");
-var dayPath = new Firebase("https://scorching-heat-1940.firebaseio.com/days");
-var parkPath = new Firebase("https://scorching-heat-1940.firebaseio.com/park");
+var dayPath;
+var parkPath;
 
 // This is an activity constructor
 // When you want to create a new activity you just call
@@ -41,6 +41,7 @@ function handleAuthResult(authResult) {
         	}
         	else {
         		fireLogged = true;
+        		setPath(firebaseRef.getAuth().uid);
         	}
         });
     }
@@ -49,6 +50,14 @@ function handleAuthResult(authResult) {
     	document.getElementById("login").style.display = '';
         logged = false;
     }
+}
+
+function setPath (uid){
+	console.log(uid);
+	var dayPathString = "https://scorching-heat-1940.firebaseio.com/days/" + uid;
+	var parkPathString = "https://scorching-heat-1940.firebaseio.com/park/" + uid;
+	dayPath = new Firebase(dayPathString);
+	parkPath = new Firebase(parkPathString);
 }
 
 function Activity(name,length,typeid,description){

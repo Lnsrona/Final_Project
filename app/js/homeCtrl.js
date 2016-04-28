@@ -33,6 +33,12 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                               var oldLength;
                               jsonToDay = JSON.parse(jsonDay.val());
                               jsonToPark = JSON.parse(jsonPark.val());
+                              if (jsonToPark==null) {
+                                   $scope.notification = "You have not saved any data on the cloud database.";
+                                   $scope.$apply();
+                                   syncBlock = false;
+                                   return;
+                              }
                               for (var i=0; i<7; i++) {
                                    for (var j=0; j<=7; j++) {
                                         if (Meeting.days[i]._fullDate == jsonToDay[j]._fullDate) {
