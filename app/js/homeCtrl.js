@@ -70,6 +70,8 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                                    );
                               }
                               $scope.notification = "The meeting schedule has been loaded to client successfully.";
+                              $scope.startTime = Meeting.days[CurrentDate].getStart();
+                              $scope.activities = Meeting.days[CurrentDate]._activities;
                               drawCanvas();
                               $scope.$apply();
                               syncBlock = false;
@@ -158,7 +160,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                else {
                     thisEnd = "T" + $scope.getActivityTime(i+1,dayIndex) + ":00+02:00";
                }
-               Meeting.newEvent.save({access_token:token},{"summary":thisEvent.getName(),"description":thisEvent.getDescription(),
+               Meeting.newEvent.save({access_token:token},{"summary":thisEvent.getType() + ": " + thisEvent.getName(),"description":thisEvent.getDescription(),
                     "start":{"dateTime":thisDate+thisStart},"end":{"dateTime":thisDate+thisEnd}},
                     function(){
                          success++;
