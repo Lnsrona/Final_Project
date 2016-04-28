@@ -3,24 +3,17 @@
     <div class="panel-heading">-->
     <div class="btn_bar">
         <div align="center">
-            <a class="btn" ng-click="login=true;login()"><img ng-hide="login" src="icon/log-in.gif"></img><img ng-show="login" class="top_btn" src="icon/log-out.gif"/>
-            <!--<span>-->
-                <!--<div class="username">-->
-                    <!--<h5 ng-show="login">{{user.account}}</h5>-->
-                <!--</div>-->
-            <!--</span>-->
-            </a>
+            <img id="login" class="btn" ng-click="login()" src="icon/log-in.gif"></img>
+            <a id="logout" style="display:none" class="btn" href="https://accounts.google.com/logout"><img src="icon/log-out.gif"></img></a>
             <a class="btn" ng-click="save=true; save()"><img src="icon/save.gif"/></a>
-            <a class="btn" ng-click="synchronize=true; synchronize()"><img src="icon/push.gif"/></a>
+            <a class="btn" ng-click="pushToCal()"><img src="icon/push.gif"/></a>
         </div>
     </div>    
 </div>
 
 <br/>
 
-<div id="notification">
-    
-</div>
+<div id="notification" style="text-align:center;font-size:20px" >{{notification}}</div>
 
 <br/>
 

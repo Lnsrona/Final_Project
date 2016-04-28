@@ -5,11 +5,39 @@ var ActivityType = ["Presentation","Discussion","Group Work","Break"];
 var ColorType = ["#9bcdc5","#a0c25f","#e98665","#f6e66e"];
 var Months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 var Days = ["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11th","12th","13th","14th","15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th","31st"];
-var CurrentDate=3;
+var CurrentDate = 3;
+var clientId = "173219749680-im8nddl4noslsqfnqsj6vf0gs4di64l9.apps.googleusercontent.com";
+var scopes = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/cloud-platform";
+var logged = false;
+var token;
+var syncBlock = false;
 
 // This is an activity constructor
 // When you want to create a new activity you just call
 // var act = new Activity("some activity",20,1,"Some description);
+
+function checkAuth() {
+    gapi.auth.authorize(
+        {
+            'client_id': clientId,
+            'scope': scopes,
+            'immediate': true
+        },handleAuthResult);
+}
+
+function handleAuthResult(authResult) {
+    if (authResult && !authResult.error) {
+        logged = true;
+        token = gapi.auth.getToken().access_token;
+        document.getElementById("login").style.display = 'none';
+        document.getElementById("logout").style.display = '';
+    }
+    else {
+    	document.getElementById("logout").style.display = 'none';
+    	document.getElementById("login").style.display = '';
+        logged = false;
+    }
+}
 
 function Activity(name,length,typeid,description){
 	var _name = name;
@@ -177,6 +205,9 @@ function Day(startH,startM,YYYY,MM,DD) {
 
 // this is our main module that contians days and praked activites
 meetingPlannerApp.factory('Meeting',function ($resource,$cookieStore){
+
+    this.newEvent = $resource('https://www.googleapis.com/calendar/v3/calendars/primary/events');
+
 	this.days = [];
 	this.parkedActivities = [];
 	// adds a new day. if startH and startM (start hours and minutes)

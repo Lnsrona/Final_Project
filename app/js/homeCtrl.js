@@ -6,6 +6,61 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
      $scope.type = "Type: Presentation";
      $scope.description = "";
      $scope.parkedActivities = Meeting.parkedActivities;
+     $scope.notification = "Welcome to use Meeting planner.";
+     $scope.login = function() {
+          gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false},handleAuthResult);
+     }
+     $scope.pushToCal = function() {
+          if (!logged) {
+               $scope.notification = "Please login to use this function.";
+               return;
+          }
+          if (syncBlock) {
+               $scope.notification = "The schedule is being pushed to Google Calendar, please wait a while.";
+               return;
+          }
+          var thisDay = Meeting.days[CurrentDate];
+          var dayIndex = CurrentDate;
+          var success = 0;
+          var failure = 0;
+          if (thisDay._activities.length == 0) {
+               $scope.notification = "There are no scheduled activities on this date.";
+               return;
+          }
+          syncBlock = true;
+          $scope.notification = "The schedule is being pushed to Google Calendar, please wait a while.";
+          for (var i=0; i<thisDay._activities.length; i++) {
+               var thisEvent = thisDay._activities[i];
+               var thisDate = thisDay._year + "-" + (thisDay._month + 1) + "-" + thisDay._day;
+               var thisStart, thisEnd;
+               thisStart = "T" + $scope.getActivityTime(i,dayIndex) + ":00+02:00";
+               if (i==thisDay._activities.length-1) {
+                    thisEnd = "T" + thisDay.getEnd() + ":00+02:00";
+               }
+               else {
+                    thisEnd = "T" + $scope.getActivityTime(i+1,dayIndex) + ":00+02:00";
+               }
+               Meeting.newEvent.save({access_token:token},{"summary":thisEvent.getName(),"description":thisEvent.getDescription(),
+                    "start":{"dateTime":thisDate+thisStart},"end":{"dateTime":thisDate+thisEnd}},
+                    function(){
+                         success++;
+                         if (success+failure == thisDay._activities.length) {
+                              syncBlock = false;
+                              if (failure == 0) {
+                                   $scope.notification = "The meeting schedule of your chosen date has been pushed to Google Calendar successfully.";
+                              }
+                         }
+                    },
+                    function(){
+                         $scope.notification = "Some activities failed to be pushed to Google Calendar.";
+                         failure++;
+                         if (success+failure == thisDay._activities.length) {
+                              syncBlock = false;
+                         }                         
+                    }
+               );
+          }
+     }
      var chosenPosition;
      var editMode = 0;
      var drawCanvas = function() {
@@ -89,8 +144,11 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                drawCanvas();
      	}
      }
-     $scope.getActivityTime = function(position) {
-     	var activityTime = Meeting.days[CurrentDate]._start;
+     $scope.getActivityTime = function(position, daynum) {
+          if (daynum==null) {
+               daynum = CurrentDate;
+          }
+     	var activityTime = Meeting.days[daynum]._start;
      	var hours, minutes;
      	for (var i=0; i<position; i++) {
      		activityTime += $scope.activities[i].getLength();
