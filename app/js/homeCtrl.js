@@ -142,7 +142,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                return;
           }
           if (syncBlock) {
-               $scope.notification = "Some other network access is pricessing, please wait a while.";
+               $scope.notification = "Some other network access is processing, please wait a while.";
                return;
           }
           var thisDay = Meeting.days[CurrentDate];
