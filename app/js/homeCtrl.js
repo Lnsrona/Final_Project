@@ -40,7 +40,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                                    return;
                               }
                               for (var i=0; i<7; i++) {
-                                   for (var j=i; j<7; j++) {
+                                   for (var j=0; j<7; j++) {
                                         if (Meeting.days[i]._fullDate == jsonToDay[j]._fullDate) {
                                              Meeting.days[i]._start = jsonToDay[j]._start;
                                              oldLength = Meeting.days[i]._activities.length;
