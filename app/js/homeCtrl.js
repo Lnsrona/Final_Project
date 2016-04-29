@@ -20,7 +20,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                return;
           }
           if (syncBlock) {
-               $scope.notification = "Some other network access is processing, please wait a while.";
+               $scope.notification = "Some other network access is processing, please wait a while or check your network.";
                return;
           }
           $scope.notification = "Loading saved meeting schedule from cloud database...";
@@ -107,7 +107,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                return;
           }
           if (syncBlock) {
-               $scope.notification = "Some other network access is processing, please wait a while.";
+               $scope.notification = "Some other network access is processing, please wait a while or check your network.";
                return;
           }
           $scope.notification = "Saving meeting schedule to cloud database...";
@@ -142,7 +142,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                return;
           }
           if (syncBlock) {
-               $scope.notification = "Some other network access is processing, please wait a while.";
+               $scope.notification = "Some other network access is processing, please wait a while or check your network.";
                return;
           }
           var thisDay = Meeting.days[CurrentDate];
@@ -154,7 +154,7 @@ meetingPlannerApp.controller('homeCtrl', function ($scope, Meeting) {
                return;
           }
           syncBlock = true;
-          $scope.notification = "The schedule is being pushed to Google Calendar, please wait a while.";
+          $scope.notification = "The schedule is being pushed to Google Calendar, please wait a while or check your network.";
           for (var i=0; i<thisDay._activities.length; i++) {
                var thisEvent = thisDay._activities[i];
                var thisDate = thisDay._year + "-" + (thisDay._month + 1) + "-" + thisDay._day;
