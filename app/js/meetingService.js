@@ -53,7 +53,6 @@ function handleAuthResult(authResult) {
 }
 
 function setPath (uid){
-	console.log(uid);
 	var dayPathString = "https://scorching-heat-1940.firebaseio.com/days/" + uid;
 	var parkPathString = "https://scorching-heat-1940.firebaseio.com/park/" + uid;
 	dayPath = new Firebase(dayPathString);
